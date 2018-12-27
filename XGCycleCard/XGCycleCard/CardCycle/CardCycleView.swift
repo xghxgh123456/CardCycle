@@ -9,6 +9,8 @@
 import UIKit
 
 @objc protocol CardCycleViewDelegate{
+    //数据源
+    func cardCycleItems() -> Array<Any>;
     //样式
     func cardCycleItemView(index:Int) -> UIView;
     //尺寸
@@ -50,7 +52,12 @@ class CardCycleView: UIView {
         self.addSubview(self.collectionView)
 
     }
-    
+    func reloadData() {
+        let data = self.delegate?.cardCycleItems()
+        if data != nil{
+            self.datas = data
+        }
+    }
     func initlizeData()  {
         for _ in 0..<groupCount {
             for i in 0..<datas!.count{
@@ -59,6 +66,7 @@ class CardCycleView: UIView {
         }
         // 定位到 第50组(中间那组)
         collectionView.scrollToItem(at: NSIndexPath.init(item: groupCount / 2 * datas!.count, section: 0) as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+        collectionView .reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {

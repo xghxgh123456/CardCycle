@@ -11,19 +11,24 @@ import UIKit
 class ViewController: UIViewController {
 
     var viewd : CardCycleView!
+    let datas = ["","",""]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewd = CardCycleView.init(frame: CGRect(x: 0, y: 300, width: SCREEN_WIDTH, height: 200))
         viewd.delegate = self
-        viewd.datas = ["","","","",""]
         self.view.addSubview(viewd)
+        viewd.reloadData()
     }
 
 }
 
 
 extension ViewController:CardCycleViewDelegate{
-   
+    func cardCycleItems() -> Array<Any> {
+        return self.datas
+    }
+   // 自定义视图
     func cardCycleItemView(index: Int) -> UIView {
         let cardView = UIView.init(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
         cardView.backgroundColor = UIColor.yellow
@@ -31,6 +36,10 @@ extension ViewController:CardCycleViewDelegate{
         label.text = String(index)
         cardView.addSubview(label)
         return cardView
+    }
+    //视图大小 不实现则默认
+    func cardCycleItemSize() -> CGSize {
+        return CGSize(width: 200, height: 100)
     }
     func cardCycleDidClick(index: Int) {
         print("点击了",index)
